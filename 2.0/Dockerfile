@@ -45,4 +45,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 9200 9300
 
-CMD ["elasticsearch"]
+CMD ["elasticsearch", "--network.host", "_non_loopback_"]
