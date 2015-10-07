@@ -28,6 +28,7 @@ RUN set -ex \
 	&& for path in \
 		/usr/share/elasticsearch/data \
 		/usr/share/elasticsearch/logs \
+		/usr/share/elasticsearch/plugins \
 		/usr/share/elasticsearch/config \
 		/usr/share/elasticsearch/config/scripts \
 	; do \
@@ -36,6 +37,16 @@ RUN set -ex \
 	done
 
 COPY config/logging.yml /usr/share/elasticsearch/config/
+
+RUN set -x \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends git \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/hao-opentown/huaban-es-plugin-targets.git
+
+COPY huaban-es-plugin-targets/0.0.4 /usr/share/elasticsearch/plugins/jieba
+
 
 VOLUME /usr/share/elasticsearch/data
 
